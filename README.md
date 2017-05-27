@@ -2,7 +2,7 @@
 
 **THIS PROJECT IS NO LONGER MAINTAINED, PLEASE PREFER [CIRCE](https://github.com/circe/circe)**
 
-Automatically derive [spray-json][spray-json] `JsonFormat`s, powered by [shapeless][shapeless] (no macros were written during the creation of this library).
+Automatically derive [spray-json](https://github.com/spray/spray-json) `JsonFormat`s, powered by [shapeless](https://github.com/milessabin/shapeless) (no macros were written during the creation of this library).
 
 For documentation, [read the scaladocs](src/main/scala/fommil/sjs/FamilyFormats.scala) and for examples [read the test cases](src/test/scala/fommil/sjs/FamilyFormatsSpec.scala).
 
