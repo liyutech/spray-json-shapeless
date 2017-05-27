@@ -1,6 +1,5 @@
 package fommil.sjs
 
-import org.slf4j.LoggerFactory
 import scala.collection.immutable.ListMap
 
 import spray.json._
@@ -125,12 +124,8 @@ trait FamilyFormats extends LowPriorityFamilyFormats {
     implicit
     gen: LabelledGeneric.Aux[T, Repr],
     default: Default.AsOptions.Aux[T, DefaultRepr],
-    sg: Cached[Strict[WrappedRootJsonFormatWithDefault[T, Repr, DefaultRepr]]],
-    tpe: Typeable[T]
+    sg: Cached[Strict[WrappedRootJsonFormatWithDefault[T, Repr, DefaultRepr]]]
   ): RootJsonFormat[T] = new RootJsonFormat[T] {
-    if (log.isTraceEnabled)
-      log.trace(s"creating ${tpe.describe}")
-
     def read(j: JsValue): T = gen.from(sg.value.value.read(j, default()))
     def write(t: T): JsObject = sg.value.value.write(gen.to(t))
   }
@@ -141,8 +136,6 @@ object FamilyFormats extends DefaultJsonProtocol with FamilyFormats
 private[sjs] trait LowPriorityFamilyFormats
   extends JsonFormatHints {
   this: StandardFormats with FamilyFormats =>
-
-  private[sjs] def log = LoggerFactory.getLogger(getClass)
 
   /**
    * a `JsonFormat[HList]` or `JsonFormat[Coproduct]` would not retain the
@@ -309,12 +302,8 @@ private[sjs] trait LowPriorityFamilyFormats
   implicit def familyFormat[T, Repr](
     implicit
     gen: LabelledGeneric.Aux[T, Repr],
-    sg: Cached[Strict[WrappedRootJsonFormat[T, Repr]]],
-    tpe: Typeable[T]
+    sg: Cached[Strict[WrappedRootJsonFormat[T, Repr]]]
   ): RootJsonFormat[T] = new RootJsonFormat[T] {
-    if (log.isTraceEnabled)
-      log.trace(s"creating ${tpe.describe}")
-
     def read(j: JsValue): T = gen.from(sg.value.value.read(j))
     def write(t: T): JsObject = sg.value.value.write(gen.to(t))
   }
